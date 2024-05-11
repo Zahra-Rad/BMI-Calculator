@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background-color: rgba(112, 128, 144, 0.237);
+      display: flex;
+      place-content: center;
+    }
+
+    main {
+      padding-bottom: 50px;
+      width: 40%;
+      height: 95vh;
+      background-color: #fff;
+      display: flex;
+      flex-direction: column;
+      border-radius: 15px;
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+
+      > div {
+        width: 100%;
+        place-content: center;
+        display: flex;
+
+        &.units {
+          > p {
+            margin: 10px 20px;
+            font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+            letter-spacing: 0.9px;
+          }
+        }
+
+        > input {
+          outline: none;
+          border: none;
+          font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+          border-bottom: 3px solid darkviolet;
+          margin: 20px 20px 0px;
+          font-weight: bold;
+          font-size: 40px;
+          color: darkviolet;
+          padding: 10px 0;
+          text-align: center;
+          width: 20%;
+        }
+
+        > button {
+          width: 35%;
+          margin: 30px 20px;
+          border: none;
+          outline: none;
+          background-color: #fff;
+          border: 2px solid darkviolet;
+          padding: 5px 20px;
+          font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+          font-size: 20px;
+          color: darkviolet;
+          border-radius: 4px;
+          cursor: pointer;
+          transition: 300ms all ease;
+
+          &:hover {
+            color: #fff;
+            background-color: darkviolet;
+          }
+        }
+
+        &:nth-of-type(1) {
+          padding: 20px;
+          display: flex;
+          border-radius: 15px 15px 0 0;
+          background-color: darkviolet;
+
+          > h1 {
+            color: #fff;
+            font-size: xx-large;
+          }
+        }
+      }
+
+      > h2,
+      p {
+        text-align: center;
+        font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+      }
+
+      > h2 {
+        color: darkviolet;
+        font-size: 60px;
+      }
+
+      > p {
+        display: flex;
+        flex-direction: column;
+        margin: 10px 0;
+
+        > span {
+          margin: 10px 0;
+          font-weight: bold;
+          font-size: 20px;
+        }
+      }
+
+      > figure {
+        width: 100%;
+        position: relative;
+
+        > img {
+          width: 100%;
+
+          &:nth-of-type(2) {
+            width: 50px;
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%) translateY(0%);
+          }
+        }
+      }
+    }
+    .under {
+      rotate: -80deg;
+      transform: translateX(-50%) translateY(-70%) !important;
+    }
+    .normal {
+      transform: translateX(-70%) translateY(-30%) !important;
+      rotate: -40deg;
+    }
+    .over {
+      transform: translateX(-50%) translateY(0%) !important;
+      rotate: 0deg;
+    }
+    .obese {
+      transform: translateX(-15%) translateY(15%) !important;
+      rotate: 40deg;
+    }
+    .exObese {
+      transform: translateX(30%) translateY(5%) !important;
+      rotate: 80deg;
+    }
+  </style>
+
+  <body>
+    <main>
+      <div>
+        <h1>BMI Calculator for Adults</h1>
+      </div>
+      <div>
+        <input type="text" name="" id="height" />
+        <input type="text" name="" id="weight" />
+      </div>
+      <div class="units">
+        <p>Height (cm):</p>
+        <p>Weight (kg):</p>
+      </div>
+      <div>
+        <button id="calc">Calculate</button>
+        <button id="reset">Reset</button>
+      </div>
+      <h2 id="result">22</h2>
+      <p>
+        You are <br />
+        <span id="interpretation">Healthy!</span>
+      </p>
+      <figure>
+        <img
+          src="img/BMIlevels-640w-ezgif.com-webp-to-jpg-converter.jpg"
+          alt=""
+        />
+        <img
+          src="img/yellow-orange-arrow-signs-removebg-preview.png"
+          class=""
+          id="arrow"
+        />
+      </figure>
+    </main>
+    <script>
+      const h = document.getElementById("height");
+      const w = document.getElementById("weight");
+      const result = document.getElementById("result");
+      const interprt = document.getElementById("interpretation");
+      const arrow = document.getElementById("arrow");
+
+      let cls = "";
+
+      document.getElementById("reset").addEventListener("click", function () {
+        w.value = "";
+        h.value = "";
+        result.innerHTML = 22;
+        interprt.innerHTML = "Healthy!";
+        arrow.setAttribute("class", "over");
+      });
+
+      document.getElementById("calc").addEventListener("click", function () {
+        let res = w.value / (h.value / 100) ** 2;
+
+        // reset arrow classes
+        arrow.setAttribute("class", "");
+        // reset arrow classes
+
+        // result update
+        result.innerHTML = Math.floor(res);
+        console.log(result);
+        // result update
+
+        // interpretation update
+        if (res <= 18.4) {
+          interprt.innerHTML = "Underweight!";
+          cls = "under";
+        } else if (res > 18.4 && res <= 24.9) {
+          interprt.innerHTML = "Healthy!";
+          cls = "normal";
+        } else if (res >= 25 && res <= 29.9) {
+          interprt.innerHTML = "Overweight!";
+          cls = "over";
+        } else if (res >= 30 && res <= 34.9) {
+          interprt.innerHTML = "Obese!";
+          cls = "obese";
+        } else if (res >= 35) {
+          interprt.innerHTML = "Extremely Obese!";
+          cls = "exObese";
+        } else {
+          alert("Make sure the values entered are correct!");
+        }
+        // interpretation update
+
+        // arrow update
+        arrow.setAttribute("class", cls);
+        // arrow update
+      });
+    </script>
+  </body>
+</html>
